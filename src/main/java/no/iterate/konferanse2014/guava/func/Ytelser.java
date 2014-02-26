@@ -32,16 +32,19 @@ public class Ytelser {
 				spkRedPen = spkRedPen + medregningspensjon.getSpkRedusertPensjon();
 			}
 
+			// Lager predikat
 			Predicate<ForventetYtelse> ektefelleEllerBarnepensjon = Predicates.or(new Ektefellepensjon(), new Barnepensjon());
-			Collection<ForventetYtelse> ektefelleYtelser = Collections2.transform(
-					Collections2.filter(ytelser, ektefelleEllerBarnepensjon), new EktefelleBarnepensjonBeregning(spkRedPen));
-			
-			Collection<ForventetYtelse> andreYtelse = Collections2.transform(Collections2.filter(Collections2.filter(ytelser, Predicates.not(ektefelleEllerBarnepensjon)), Predicates.not(new Uonskete())), new NormalBeregning(
-					spkRedPen));
+			// Filtrerer
+			Collection<ForventetYtelse> forventetYtelser = Collections2.filter(ytelser, ektefelleEllerBarnepensjon);
+			// Transformerer
+			Collection<ForventetYtelse> ektefelleYtelser = Collections2.transform(forventetYtelser, new EktefelleBarnepensjonBeregning(spkRedPen));
 
-			
-	        ytelser =  Lists.newArrayList( Iterables.concat(ektefelleYtelser, andreYtelse) );
-			
+			Collection<ForventetYtelse> andreYtelse = Collections2.transform(
+					Collections2.filter(Collections2.filter(ytelser, Predicates.not(ektefelleEllerBarnepensjon)), Predicates.not(new Uonskete())),
+					new NormalBeregning(spkRedPen));
+
+			ytelser = Lists.newArrayList(Iterables.concat(ektefelleYtelser, andreYtelse));
+
 		}
 	}
 

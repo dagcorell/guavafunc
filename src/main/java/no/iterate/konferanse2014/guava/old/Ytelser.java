@@ -20,7 +20,8 @@ public class Ytelser {
             //Reduserer alle relevante dekninger med totalbeløpet
             for (ForventetYtelse ytelse : ytelser) {
                 int nyPensjon;
-                if (ytelse.getDekningsId().equals(Dekningsnummer.EVENTUELL_LIVSVARIG_EKTEFELLEPENSJON_25) || ytelse.getDekningsId().equals(Dekningsnummer.EVENTUELL_OPPHORENDE_BARNEPENSJON_27)) {
+                if (ytelse.getDekningsId().equals(Dekningsnummer.EVENTUELL_LIVSVARIG_EKTEFELLEPENSJON_25) 
+                		|| ytelse.getDekningsId().equals(Dekningsnummer.EVENTUELL_OPPHORENDE_BARNEPENSJON_27)) {
                     int spkRedPen60 = 60 * spkRedPen / 100; //skal kun ha redusert 60% av beløpet
                     nyPensjon = ytelse.getRedusertPensjon() - spkRedPen60;
                     if (nyPensjon < 0) {
